@@ -59,6 +59,13 @@ begin
     exit 1
   end
 
+  LogBench.setup {} unless LogBench.configuration
+
+  unless LogBench.enabled?
+    puts "LogBench is disabled (enable it in your initializer or setup block)."
+    exit 0
+  end
+
   LogBench::App::Main.new(log_file).run
 rescue Interrupt
   Curses.close_screen if defined?(Curses)
