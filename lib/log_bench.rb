@@ -4,7 +4,7 @@ require "zeitwerk"
 require "json"
 require "time"
 require "curses"
-require_relative "log_bench/version"
+require "lograge"
 
 loader = Zeitwerk::Loader.for_gem
 loader.ignore("#{__dir__}/generators")
@@ -12,15 +12,6 @@ loader.setup
 
 module LogBench
   class Error < StandardError; end
-
-  class Configuration
-    attr_accessor :show_init_message, :enable
-
-    def initialize
-      @show_init_message = nil
-      @enable = true
-    end
-  end
 
   class << self
     attr_accessor :configuration
