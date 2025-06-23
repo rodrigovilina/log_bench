@@ -14,7 +14,12 @@ module LogBench
   class Error < StandardError; end
 
   class Configuration
-    attr_accessor :show_init_message
+    attr_accessor :show_init_message, :enable
+
+    def initialize
+      @show_init_message = nil
+      @enable = true
+    end
   end
 
   class << self
@@ -33,9 +38,13 @@ module LogBench
       return if @already_setup
 
       yield(configuration) if block_given?
-      configure_rails_logging if defined?(Rails)
+      configure_rails_logging if defined?(Rails) && enabled?
 
       @already_setup = true
+    end
+
+    def enabled?
+      configuration&.enable != false
     end
 
     private
