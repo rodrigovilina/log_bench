@@ -43,8 +43,12 @@ initializer like so:
 ```ruby
 LogBench.setup do |config|
   config.show_init_message = :full # or :min or :none 
+  config.enable = true # or false to completely disable LogBench
 end
 ```
+
+- If `config.enable = false`, LogBench will be completely disabled (no TUI, no Rails integration, no messages).
+- By default, LogBench is enabled.
 
 ### 2. Set Up Request ID Tracking
 
