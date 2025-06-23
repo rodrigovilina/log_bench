@@ -3,11 +3,13 @@
 module LogBench
   module Setup
     def setup
-      self.configuration ||= Configuration.new
       return if @already_setup
 
-      yield(configuration) if block_given?
-      configure_rails_logging if defined?(Rails) && enabled?
+      self.configuration ||= Configuration.new
+      if block_given?
+        yield(configuration)
+      end
+      configure_rails_logging
 
       @already_setup = true
     end
@@ -19,6 +21,9 @@ module LogBench
     private
 
     def configure_rails_logging
+      return unless enabled?
+      return unless defined?(Rails)
+
       Rails.application.configure do
         config.lograge.enabled = true
         config.lograge.formatter = Lograge::Formatters::Json.new
